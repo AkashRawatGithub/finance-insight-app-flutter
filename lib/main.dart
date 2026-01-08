@@ -1,101 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
+import 'core/storage/hive_service.dart';
+
+import 'features/income/domain/income_model.dart';
+import 'features/expenses/domain/expense_model.dart';
 import 'features/emi/domain/emi_model.dart';
 import 'features/goals/domain/goal_model.dart';
-import 'features/expenses/domain/expense_model.dart';
-import 'features/income/domain/income_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+
   await Hive.initFlutter();
 
-  // ✅ Register Hive adapters HERE
   Hive.registerAdapter(IncomeAdapter());
   Hive.registerAdapter(ExpenseAdapter());
   Hive.registerAdapter(EmiAdapter());
   Hive.registerAdapter(GoalAdapter());
 
 
+  await HiveService.openBoxes();
+
+
   runApp(
     const ProviderScope(
-      child: MyApp(),
+      child: FinanceInsightApp(),
     ),
   );
 }
 
+class FinanceInsightApp extends StatelessWidget {
+  const FinanceInsightApp({super.key});
 
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Finance Insight',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.indigo,
+        ),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const AppBootstrapPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-
-      _counter++;
-    });
-  }
+class AppBootstrapPage extends StatelessWidget {
+  const AppBootstrapPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-         title: Text(widget.title),
-      ),
+    return const Scaffold(
       body: Center(
-
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        child: Text(
+          'Finance Insight App ',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
