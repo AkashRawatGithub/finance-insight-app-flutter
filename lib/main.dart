@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
+
+import 'features/income/domain/expense_model.dart';
+import 'features/income/domain/income_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter();
-  runApp(const ProviderScope(child: MyApp()));
+
+  // ✅ Register Hive adapters HERE
+  Hive.registerAdapter(IncomeAdapter());
+  Hive.registerAdapter(ExpenseAdapter());
+
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
+
 
 
 class MyApp extends StatelessWidget {
