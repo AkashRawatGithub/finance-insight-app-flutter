@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
+import 'features/emi/domain/emi_model.dart';
+import 'features/goals/domain/goal_model.dart';
 import 'features/income/domain/expense_model.dart';
 import 'features/income/domain/income_model.dart';
 
@@ -14,6 +16,9 @@ void main() async {
   // ✅ Register Hive adapters HERE
   Hive.registerAdapter(IncomeAdapter());
   Hive.registerAdapter(ExpenseAdapter());
+  Hive.registerAdapter(EmiAdapter());
+  Hive.registerAdapter(GoalAdapter());
+
 
   runApp(
     const ProviderScope(
