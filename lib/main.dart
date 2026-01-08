@@ -5,7 +5,7 @@ import 'package:hive_flutter/adapters.dart';
 
 import 'features/emi/domain/emi_model.dart';
 import 'features/goals/domain/goal_model.dart';
-import 'features/income/domain/expense_model.dart';
+import 'features/expenses/domain/expense_model.dart';
 import 'features/income/domain/income_model.dart';
 
 void main() async {
